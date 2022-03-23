@@ -1,46 +1,50 @@
 package arquitetura.leitura;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.FileReader;
+import java.io.PrintStream;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import arquitetura.mips.mips;
 
 public class teste {
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
+		
 		File folder = new File("input");
+		mips m = new mips();
 		
 		for (File file : folder.listFiles()) {
 			if (!file.isDirectory()) {
-				InputStream fis = new FileInputStream(file);
-				Reader isr = new InputStreamReader(fis);
-				BufferedReader br = new BufferedReader(isr);
+				PrintStream ps = new PrintStream("output/GrupoTL." + file.getName());
+				ps.println("[");
 				
-				System.out.println("output/GrupoTL." + file.getName());
-				OutputStream fos = new FileOutputStream("output/GrupoTL." + file.getName());
-				Writer osw = new OutputStreamWriter(fos);
-				BufferedWriter bw = new BufferedWriter(osw);
+				Object ob = new JSONParser().parse(new FileReader(file));
+				JSONObject js = (JSONObject) ob;
 				
-				String linha = br.readLine();
+				JSONArray h = (JSONArray) js.get("text");
 				
-				while(linha != null && !linha.isEmpty()) {	
-					bw.write(linha);
-					bw.newLine();
-					bw.flush();
-					linha = br.readLine();
+				for (int i = 0; i < h.size(); i++) {
+					
+					m.setHexa(h.get(i).toString());
+					
+					ps.println("  {");
+					ps.println("    \"hex\": \"" + h.get(i) + "\",");
+					ps.println("    \"text\": " + m.getBin() + ",");
+					ps.println("    \"regs\": " + "{},");
+					ps.println("    \"mem\": " + "{},");
+					ps.println("    \"stdout\": " + "{}");
+					ps.print("  }");
+					if(i+1 < h.size()) {ps.println(",");}
+					else {ps.println();}
 				}
 				
-				br.close();
-				bw.close();
+				ps.println("]");
+				ps.close();
 			}
 		}
-	}
+	} 
 }

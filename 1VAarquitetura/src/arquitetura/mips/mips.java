@@ -31,8 +31,8 @@ public class mips {
 
 	/*pega o hexa e transforma em binario*/
 	public String transformarBinario(String hex) {
-		int hdec = Integer.parseInt(retiraPrefixo(hex), 16);
-		String bina = Integer.toBinaryString(hdec);
+		long hdec = Long.parseLong(retiraPrefixo(hex), 16);
+		String bina = Long.toBinaryString(hdec);
 		while (bina.length() < 32){
 			bina = "0" + bina;
 		}
