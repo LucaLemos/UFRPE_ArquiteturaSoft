@@ -20,6 +20,7 @@ public class teste {
 		for (File file : folder.listFiles()) {
 			if (!file.isDirectory()) {
 				PrintStream ps = new PrintStream("output/GrupoTL." + file.getName());
+				
 				ps.println("[");
 				
 				Object ob = new JSONParser().parse(new FileReader(file));

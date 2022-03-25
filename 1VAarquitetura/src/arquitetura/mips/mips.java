@@ -2,8 +2,10 @@ package arquitetura.mips;
 
 public class mips {
 	/*variavies*/
-	public String hexa;
-	public String bin;
+	private String hexa;
+	private String bin;
+	private decodificador deco = new decodificador();
+	
 	
 	/*inicializando mips*/
 	public mips() {
