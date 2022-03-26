@@ -5,14 +5,13 @@ public class mips {
 	private String hexa;
 	private String bin;
 	private decodificador deco = new decodificador();
-	
-	
+
 	/*inicializando mips*/
 	public mips() {
 	}
 	
-	public mips(String He) {
-		hexa = He;
+	public mips(String Hexa) {
+		hexa = Hexa;
 		bin = hexaBinario();
 	}
 	
@@ -51,6 +50,42 @@ public class mips {
 			return "erro de entrada";
 		}
 	}
+	
+	/*Binario para decimal*/
+	public int binarioDecimal(String bina) {
+		int bdec = Integer.parseInt(bina, 2);
+		return bdec;
+	}
+	
+	/*retira 6 primeiros binarios*/
+	public String retiraOpcode() {
+		bin = bin.substring(0, 6);
+		return bin;
+	}
+	
+	/*identifica o tipo da instrucao*/
+	public String qualTipo() {
+		return deco.buscarTipo(retiraOpcode());
+	}
+	
+	/*ira retornar a instrucao que foi passada para o mips*/
+	public String tipoInstrucao() {
+		if(qualTipo().equals("R")) {
+			TipoR inst = new TipoR(hexa);
+			return inst.intrucao();
+		}
+		else if(qualTipo().equals("I")) {
+			TipoI inst = new TipoI(hexa);
+			return "IIIII";
+		}
+		else if(qualTipo().equals("J")) {
+			TipoJ inst = new TipoJ(hexa);
+			return "JJJJJ";
+		}
+		else {
+			return "NULL";
+		}
+	}
     
 	/*get e set*/
 	public String getHexa() {
@@ -59,6 +94,10 @@ public class mips {
 	
 	public String getBin() {
 		return bin;
+	}
+	
+	public decodificador getDeco() {
+		return deco;
 	}
 
 	public void setHexa(String hexa) {

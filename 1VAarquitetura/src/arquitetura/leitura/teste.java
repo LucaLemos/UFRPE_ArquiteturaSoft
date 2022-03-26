@@ -34,7 +34,7 @@ public class teste {
 					
 					ps.println("  {");
 					ps.println("    \"hex\": \"" + h.get(i) + "\",");
-					ps.println("    \"text\": " + m.getBin() + ",");
+					ps.println("    \"text\": " + m.tipoInstrucao() );
 					ps.println("    \"regs\": " + "{},");
 					ps.println("    \"mem\": " + "{},");
 					ps.println("    \"stdout\": " + "{}");
