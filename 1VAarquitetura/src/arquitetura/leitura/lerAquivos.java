@@ -10,7 +10,7 @@ import org.json.simple.parser.JSONParser;
 
 import arquitetura.mips.mips;
 
-public class teste {
+public class lerAquivos {
 	
 	public static void main(String[] args) throws Exception {
 		
