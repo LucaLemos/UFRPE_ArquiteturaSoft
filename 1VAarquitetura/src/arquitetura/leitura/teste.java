@@ -19,8 +19,8 @@ public class teste {
 		
 		for (File file : folder.listFiles()) {
 			if (!file.isDirectory()) {
-	
-				PrintStream ps = new PrintStream("output/GrupoTL." + file.getName());
+				String nome = "output/GrupoTL." + file.getName().replace("input", "output");
+				PrintStream ps = new PrintStream(nome);
 				
 				ps.println("[");
 				
