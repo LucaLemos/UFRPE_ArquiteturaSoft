@@ -37,6 +37,8 @@ public class TipoR extends mips {
 			return or();
 		case "xor": 
 			return xor();
+		case "nor": 
+			return nor();
 		case "mfhi": 
 			return mfhi();
 		case "mflo": 
@@ -97,6 +99,10 @@ public class TipoR extends mips {
 	
 	public String xor() {
 		return "\"xor $" + super.binarioDecimal(destinationReg) + ", $" + super.binarioDecimal(sourceReg1) + ", $" + super.binarioDecimal(sourceReg2) + "\",";
+	}
+	
+	public String nor() {
+		return "\"nor $" + super.binarioDecimal(destinationReg) + ", $" + super.binarioDecimal(sourceReg1) + ", $" + super.binarioDecimal(sourceReg2) + "\",";
 	}
 	
 	public String mfhi() {
