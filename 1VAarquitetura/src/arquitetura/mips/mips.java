@@ -53,8 +53,9 @@ public class mips {
 	
 	/*Binario para decimal*/
 	public int binarioDecimal(String bina) {
-		int bdec = Integer.parseInt(bina, 2);
-		return bdec;
+		long bdec = Long.parseLong(bina, 2);
+		int bdecI = (int) bdec;
+		return bdecI;
 	}
 	
 	/*retira 6 primeiros binarios*/
@@ -70,19 +71,17 @@ public class mips {
 	
 	/*ira retornar a instrucao que foi passada para o mips*/
 	public String tipoInstrucao() {
-		if(qualTipo().equals("R")) {
-			TipoR inst = new TipoR(hexa);
-			return inst.intrucao();
-		}
-		else if(qualTipo().equals("I")) {
-			TipoI inst = new TipoI(hexa);
+		switch (qualTipo()) {
+		case "R": 
+			TipoR instR = new TipoR(hexa);
+			return instR.intrucao();
+		case "I": 
+			TipoI instI = new TipoI(hexa);
 			return "IIIII";
-		}
-		else if(qualTipo().equals("J")) {
-			TipoJ inst = new TipoJ(hexa);
+		case "J": 
+			TipoJ instJ = new TipoJ(hexa);
 			return "JJJJJ";
-		}
-		else {
+		default:
 			return "NULL";
 		}
 	}
