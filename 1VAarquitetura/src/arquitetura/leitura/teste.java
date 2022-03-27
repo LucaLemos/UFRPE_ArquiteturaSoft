@@ -10,7 +10,7 @@ import org.json.simple.parser.JSONParser;
 
 import arquitetura.mips.mips;
 
-public class lerAquivos {
+public class teste {
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -19,6 +19,7 @@ public class lerAquivos {
 		
 		for (File file : folder.listFiles()) {
 			if (!file.isDirectory()) {
+	
 				PrintStream ps = new PrintStream("output/GrupoTL." + file.getName());
 				
 				ps.println("[");
