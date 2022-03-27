@@ -13,7 +13,28 @@ public class TipoJ extends mips {
 		opcode = super.retiraOpcode();
 		jumpTarget = bin.substring(6, 32);
 	}
+	
+	public String intrucao() {
+		String inst = this.getDeco().buscarInst(opcode);
+		switch (inst) {
+		case "j": 
+			return j();
+		case "jal": 
+			return jal();
+		default:
+			return inst;
+		}
+	}
 
+	public String j() {
+			return "\"j " + super.binarioDecimal(jumpTarget) + "\","; 
+	}
+	
+	public String jal() {
+			return "\"jal " + super.binarioDecimal(jumpTarget) + "\","; 
+	}
+		
+	/*get*/	
 	public String getOpcode() {
 		return opcode;
 	}
