@@ -80,7 +80,7 @@ public class mips {
 			return instI.intrucao();
 		case "J": 
 			TipoJ instJ = new TipoJ(hexa);
-			return "JJJJJ";
+			return instJ.intrucao();
 		default:
 			return "NULL";
 		}
