@@ -11,6 +11,7 @@ public class TipoI extends mips {
 		atribuir(super.getBin());
 	}
 	
+	//funcao para qunado inicializar dividir o codico binario em seus respectivos cortes
 	public void atribuir(String bin) {
 		opcode = super.retiraOpcode();
 		sourceReg = bin.substring(6, 11);
@@ -18,6 +19,7 @@ public class TipoI extends mips {
 		offset = bin.substring(16, 32);
 	}
 	
+	//funcao para completar os 32 bits do offset para se traduzir corretamente para decimal
 	public String completar32(String bin) {
 		while (bin.length() < 32){
 			bin = bin.charAt(0) + bin;
@@ -25,6 +27,7 @@ public class TipoI extends mips {
 		return bin;
 	}
 	
+	//funcao que identifica qual instrucao deve ser utilizada e executa sua respectiva funcao
 	public String intrucao() {
 		String inst = this.getDeco().buscarInst(opcode);
 		switch (inst) {

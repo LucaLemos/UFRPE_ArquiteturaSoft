@@ -13,6 +13,7 @@ public class TipoR extends mips {
 		atribuir(super.getBin());
 	}
 	
+	//funcao para qunado inicializar dividir o codico binario em seus respectivos cortes
 	public void atribuir(String bin) {
 		opcode = super.retiraOpcode();
 		sourceReg1 = bin.substring(6, 11);
@@ -22,6 +23,7 @@ public class TipoR extends mips {
 		opcodeExt = bin.substring(26, 32);
 	}
 	
+	//funcao que identifica qual instrucao deve ser utilizada e executa sua respectiva funcao
 	public String intrucao() {
 		String inst = this.getDeco().buscarInstR(this.opcodeExt);
 		switch (inst) {

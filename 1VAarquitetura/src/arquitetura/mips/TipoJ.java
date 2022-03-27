@@ -9,11 +9,13 @@ public class TipoJ extends mips {
 		atribuir(super.getBin());
 	}
 	
+	//funcao para qunado inicializar dividir o codico binario em seus respectivos cortes
 	public void atribuir(String bin) {
 		opcode = super.retiraOpcode();
 		jumpTarget = bin.substring(6, 32);
 	}
 	
+	//funcao que identifica qual instrucao deve ser utilizada e executa sua respectiva funcao
 	public String intrucao() {
 		String inst = this.getDeco().buscarInst(opcode);
 		switch (inst) {
@@ -26,10 +28,11 @@ public class TipoJ extends mips {
 		}
 	}
 
+	/*implementacao da formatacao das instrucoes*/
 	public String j() {
 			return "\"j " + super.binarioDecimal(jumpTarget) + "\","; 
 	}
-	
+
 	public String jal() {
 			return "\"jal " + super.binarioDecimal(jumpTarget) + "\","; 
 	}

@@ -1,7 +1,7 @@
 package arquitetura.mips;
 
 public class decodificador {
-	
+	//informacoes necessarias para fazer a traducao
 	private String[][] arrays = { {"000000", "R"}, {"001000", "I", "addi"}, {"001001", "I", "addiu"}, {"001100", "I", "andi"}, 
 			{"000111", "I", "bgtz"}, {"000100", "I", "beq"}, {"000001", "I", "bltz"}, {"000110", "I", "blez"}, 
 			{"000101", "I", "bne"}, {"000010", "J", "j"}, {"000011", "J", "jal"}, {"100000", "I", "lb"}, 
@@ -17,7 +17,7 @@ public class decodificador {
 	
 	public decodificador() {
 	}
-	
+	//recebe um String que representa um opcode e retorna qual o tipo da instrucao
 	public String buscarTipo (String opCode) {
 		for(int i = 0; i < arrays.length; i++){
 		    if (arrays[i][0].equals(opCode)){
@@ -26,7 +26,7 @@ public class decodificador {
 		}
 		return "Null";
 	}
-	
+	//recebe uma String que representa um opcode e retorna o nome da instrucao
 	public String buscarInst (String opCode) {
 		for(int i = 0; i < arrays.length; i++){
 		    if (arrays[i][0].contentEquals(opCode)){
@@ -37,7 +37,7 @@ public class decodificador {
 		}
 		return "Null";
 	}
-	
+	//recebe uma String que representa um opcode extension e retorna o nome da instrucao R
 	public String buscarInstR (String function) {
 		for(int i = 0; i < functionR.length; i++){
 		    if (functionR[i][0].equals(function)){

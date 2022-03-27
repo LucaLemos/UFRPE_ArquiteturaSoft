@@ -23,13 +23,11 @@ public class mips {
 			return false;
 		}
 	}
-	
 	/*retira 0x de hexa*/
 	public String retiraPrefixo(String Ox) {
 		Ox = Ox.replace("0x","");
 		return Ox;
 	}
-
 	/*pega o hexa e transforma em binario*/
 	public String transformarBinario(String hex) {
 		long hdec = Long.parseLong(retiraPrefixo(hex), 16);
@@ -39,7 +37,6 @@ public class mips {
 		}
 		return bina;
 	}
-	
 	/*Faz verificacao e transformacao em binario*/
 	public String hexaBinario() {
 		if(tamanhoHexa(this.hexa )== true) {
