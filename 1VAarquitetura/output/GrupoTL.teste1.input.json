@@ -337,14 +337,14 @@
   },
   {
     "hex": "0x2568fffc",
-    "text": addiu
+    "text": "addiu $8, $11, -4",
     "regs": {},
     "mem": {},
     "stdout": {}
   },
   {
     "hex": "0x25a80001",
-    "text": addiu
+    "text": "addiu $8, $13, 1",
     "regs": {},
     "mem": {},
     "stdout": {}
@@ -372,21 +372,21 @@
   },
   {
     "hex": "0xa22f0003",
-    "text": sb
+    "text": "sb $15, 3($17)",
     "regs": {},
     "mem": {},
     "stdout": {}
   },
   {
     "hex": "0x82280003",
-    "text": lb
+    "text": "lb $8, 3($17)",
     "regs": {},
     "mem": {},
     "stdout": {}
   },
   {
     "hex": "0x92280003",
-    "text": lbu
+    "text": "lbu $8, 3($17)",
     "regs": {},
     "mem": {},
     "stdout": {}
@@ -484,14 +484,14 @@
   },
   {
     "hex": "0x1508fffc",
-    "text": bne
+    "text": "bne $8, $8, -4",
     "regs": {},
     "mem": {},
     "stdout": {}
   },
   {
     "hex": "0x1509fffb",
-    "text": bne
+    "text": "bne $8, $9, -5",
     "regs": {},
     "mem": {},
     "stdout": {}

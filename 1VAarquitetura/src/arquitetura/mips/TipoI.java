@@ -48,6 +48,16 @@ public class TipoI extends mips {
 			return bltz();
 		case "beq": 
 			return beq();
+		case "bne": 
+			return bne();
+		case "addiu": 
+			return addiu();
+		case "lb": 
+			return lb();
+		case "lbu": 
+			return lbu();
+		case "sb": 
+			return sb();
 		default:
 			return inst;
 		}
@@ -100,6 +110,31 @@ public class TipoI extends mips {
 	public String beq() {
 		return "\"beq $" + super.binarioDecimal(sourceReg) + ", $" + super.binarioDecimal(destinationReg) + 
 				", " + super.binarioDecimal(completar32(offset)) + "\",";
+	}
+	
+	public String bne() {
+		return "\"bne $" + super.binarioDecimal(sourceReg) + ", $" + super.binarioDecimal(destinationReg) + 
+				", " + super.binarioDecimal(completar32(offset)) + "\",";
+	}
+	
+	public String addiu() {
+		return "\"addiu $" + super.binarioDecimal(destinationReg) + ", $" + super.binarioDecimal(sourceReg) + 
+				", " + super.binarioDecimal(completar32(offset)) + "\",";
+	}
+	
+	public String lb() {
+		return "\"lb $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
+				"($" + super.binarioDecimal(sourceReg) + ")\",";
+	}
+	
+	public String lbu() {
+		return "\"lbu $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
+				"($" + super.binarioDecimal(sourceReg) + ")\",";
+	}
+	
+	public String sb() {
+		return "\"sb $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
+				"($" + super.binarioDecimal(sourceReg) + ")\",";
 	}
 
 	/*funcoes gets*/
