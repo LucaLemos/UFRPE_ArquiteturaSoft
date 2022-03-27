@@ -77,7 +77,7 @@ public class mips {
 			return instR.intrucao();
 		case "I": 
 			TipoI instI = new TipoI(hexa);
-			return "IIIII";
+			return instI.intrucao();
 		case "J": 
 			TipoJ instJ = new TipoJ(hexa);
 			return "JJJJJ";

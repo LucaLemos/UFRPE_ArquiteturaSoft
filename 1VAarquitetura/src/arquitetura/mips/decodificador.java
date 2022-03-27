@@ -31,7 +31,7 @@ public class decodificador {
 		for(int i = 0; i < arrays.length; i++){
 		    if (arrays[i][0].contentEquals(opCode)){
 		        if(!arrays[i][1].equals("R")) {
-		        	return arrays[i][3];
+		        	return arrays[i][2];
 		        }
 		    }
 		}
