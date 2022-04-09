@@ -6,6 +6,7 @@ public class mips {
 	private String bin;
 	private decodificador deco = new decodificador();
 	private registradores regs = new registradores();
+	private String instrucao;
 	private String stdout = "{}";
 
 	/*inicializando mips*/
@@ -51,9 +52,18 @@ public class mips {
 		return hex;
 	}
 	/*pega o decimal e transforma em hexa*/
+	public String longHexa(long dec) {
+		String hex = Long.toHexString(dec);
+		while (hex.length() < 8){
+			hex = "0" + hex;
+		}
+		hex = "0x" + hex;
+		return hex;
+	}
+	/*pega o decimal e transforma em hexa*/
 	public String intStringHexa(String dec) {
-		int deci = Integer.parseInt(dec);
-		String hex = Integer.toHexString(deci);
+		long deci = Long.parseLong(dec);
+		String hex = Long.toHexString(deci);
 		while (hex.length() < 8){
 			hex = "0" + hex;
 		}
@@ -89,6 +99,11 @@ public class mips {
 		num = binarioDecimal(transformarBinario(hex));
 		return num;
 	}
+	public long hexaDecimalUnisined(String hex) {
+		long num;
+		num = binarioDecimalUnisigned(transformarBinario(hex));
+		return num;
+	}
 	
 	/*retira 6 primeiros binarios*/
 	public String retiraOpcode() {
@@ -106,7 +121,9 @@ public class mips {
 		switch (qualTipo()) {
 		case "R": 
 			TipoR instR = new TipoR(hexa, regs);
-			return instR.intrucao();
+			instrucao = instR.intrucao();
+			stdout = instR.getStdout();
+			return instrucao;
 		case "I": 
 			TipoI instI = new TipoI(hexa, regs);
 			return instI.intrucao();
@@ -126,6 +143,10 @@ public class mips {
 		regs.registrar(posi, intHexa(valor));
 	}
 	
+	public void registrarLong(int posi, long valor) {
+		regs.registrar(posi, longHexa(valor));
+	}
+	
 	public String resgatar(int posi) {
 		return regs.resgatar(posi);
 	}
@@ -136,18 +157,18 @@ public class mips {
 		for(int i = 0; i < regs.getRegs().length; i++){	
 			if (regs.getRegs()[i] != "0x00000000") {
 				if (i == 32) {
-					registros= registros + "        \"$pc\": " + hexaDecimal(regs.getRegs()[i]);
+					registros= registros + "        \"$pc\": " + hexaDecimalUnisined(regs.getRegs()[i]);
 				}
 				else if (i == 33) {
 					registros= registros + (",\n");
-					registros= registros + ("        \"$hi\": " + hexaDecimal(regs.getRegs()[i]));
+					registros= registros + ("        \"$hi\": " + hexaDecimalUnisined(regs.getRegs()[i]));
 				}
 				else if (i == 34) {
 					registros= registros + (",\n");
-					registros= registros + ("        \"$lo\": " + hexaDecimal(regs.getRegs()[i]));
+					registros= registros + ("        \"$lo\": " + hexaDecimalUnisined(regs.getRegs()[i]));
 				}
                 else {
-                	registros= registros + ("        \"$" + i + "\": " + hexaDecimal(regs.getRegs()[i]) + ",\n");
+                	registros= registros + ("        \"$" + i + "\": " + hexaDecimalUnisined(regs.getRegs()[i]) + ",\n");
                 }
 			}
 		}
@@ -174,6 +195,10 @@ public class mips {
 	public void setHexa(String hexa) {
 		this.hexa = hexa;
 		bin = hexaBinario();
+	}
+	
+	public void setStdout(String out) {
+		this.stdout = out;
 	}
 
 }

@@ -24,6 +24,8 @@ public class teste {
 				registradores reg = new registradores();
 				mips m = new mips(reg);
 				
+				//System.out.println(m.(4294967295));
+				
 				//ajusta o nome do arquivo de saida
 				String nome = "output/GrupoC." + file.getName().replace("input", "output");
 				PrintStream ps = new PrintStream(nome);

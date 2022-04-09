@@ -80,6 +80,16 @@ public class TipoR extends mips {
 	
 	/*implementacao da formatacao das instrucoes*/
 	public String add() {
+		long lim = super.hexaDecimalUnisined("FFFFFFFF");
+		long som1 = super.hexaDecimalUnisined(super.resgatar(super.binarioDecimal(sourceReg1)));
+		long som2 = super.hexaDecimalUnisined(super.resgatar(super.binarioDecimal(sourceReg2)));
+		long soma = som1 + som2;
+		if (soma > lim) {
+			super.setStdout("\"overflow\"");
+		}else {
+			super.registrarLong(super.binarioDecimal(destinationReg), soma);
+		}
+		
 		return "\"add $" + super.binarioDecimal(destinationReg) + ", $" + super.binarioDecimal(sourceReg1) + ", $" + super.binarioDecimal(sourceReg2) + "\",";
 	}
 	
@@ -195,8 +205,6 @@ public class TipoR extends mips {
 	public String getOpcodeExt() {
 		return opcodeExt;
 	}
-
-
 	
 	
 }
