@@ -9,18 +9,21 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import arquitetura.mips.mips;
+import arquitetura.mips.registradores;
 
 public class teste {
 	
 	public static void main(String[] args) throws Exception {
 		//carrega os arquivos da pasta no folder
 		File folder = new File("input");
-		//inicializa a classe mips
-		mips m = new mips();
 		
 		//executa para cada arquivo da pasta que nao seja uma pasta
 		for (File file : folder.listFiles()) {
 			if (!file.isDirectory()) {
+				//inicializa a classe mips
+				registradores reg = new registradores();
+				mips m = new mips(reg);
+				
 				//ajusta o nome do arquivo de saida
 				String nome = "output/GrupoC." + file.getName().replace("input", "output");
 				PrintStream ps = new PrintStream(nome);
@@ -29,27 +32,56 @@ public class teste {
 				ps.println("[");
 				
 				//carrega os dados do arquivo no formato JSONObject
-				Object ob = new JSONParser().parse(new FileReader(file));
+				JSONParser parser = new JSONParser();
+				FileReader reader = new FileReader(file);
+				Object ob = parser.parse(reader);
 				JSONObject js = (JSONObject) ob;
 				
+				//separa as partes de config e regs do json
+				JSONObject config = (JSONObject) js.get("config");
+				JSONObject regs = (JSONObject) config.get("regs");
+				
+				//atualiza os registradores com os valores em regs
+				if (regs != null) {
+					for (int i = 0; i < 32; i++) {
+						if (regs.get("$" + i) != null) {
+							m.registrar(i, regs.get("$" + i).toString());
+						}
+					}
+					if (regs.get("pc") != null) {
+						m.registrar(32, regs.get("pc").toString());
+					}
+					if (regs.get("hi") != null) {
+						m.registrar(33, regs.get("hi").toString());
+					}
+					if (regs.get("lo") != null) {
+						m.registrar(34, regs.get("lo").toString());
+					}
+				}
+				
 				//salva os dados de text em um JSONArray para leitura
-				JSONArray h = (JSONArray) js.get("text");
+				JSONArray text = (JSONArray) js.get("text");
 				
 				//executa para cada instrucao do array
-				for (int i = 0; i < h.size(); i++) {
+				for (int i = 0; i < text.size(); i++) {
 					//carrega a insformacao hexadecimal na classe mips
-					m.setHexa(h.get(i).toString());
+					m.setHexa(text.get(i).toString());
 					
 					//formatacao do arquivo de saida por instrucao
 					ps.println("  {");
-					ps.println("    \"hex\": \"" + h.get(i) + "\",");
+					ps.println("    \"hex\": \"" + text.get(i) + "\",");
 					//usa o comando m.tipoInstrucao para imprimir a traducao do hexa
-					ps.println("    \"text\": " + m.tipoInstrucao() );
-					ps.println("    \"regs\": " + "{},");
+					ps.println("    \"text\": " + m.Instrucao() );
+					//usa o mips para imprimir os registradores que estao com um valor diferente de 0
+					ps.println("    \"regs\": " + "{");
+					ps.println(m.mostrarReg() + "");
+					ps.println("    },");
+					
 					ps.println("    \"mem\": " + "{},");
 					ps.println("    \"stdout\": " + "{}");
 					ps.print("  }");
-					if(i+1 < h.size()) {ps.println(",");}
+					
+					if(i+1 < text.size()) {ps.println(",");}
 					else {ps.println();}
 				}
 				

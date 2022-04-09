@@ -4,8 +4,8 @@ public class TipoJ extends mips {
 	private String opcode;
 	private String jumpTarget;
 	
-	public TipoJ(String hexa) {
-		super(hexa);
+	public TipoJ(String hexa, registradores reg) {
+		super(hexa, reg);
 		atribuir(super.getBin());
 	}
 	

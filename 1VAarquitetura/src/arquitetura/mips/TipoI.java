@@ -6,8 +6,8 @@ public class TipoI extends mips {
 	private String destinationReg;
 	private String offset;
 
-	public TipoI(String hexa) {
-		super(hexa);
+	public TipoI(String hexa, registradores reg) {
+		super(hexa, reg);
 		atribuir(super.getBin());
 	}
 	
@@ -139,6 +139,8 @@ public class TipoI extends mips {
 		return "\"sb $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
 				"($" + super.binarioDecimal(sourceReg) + ")\",";
 	}
+	
+	
 
 	/*funcoes gets*/
 	public String getOpcode() {

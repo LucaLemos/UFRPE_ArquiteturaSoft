@@ -8,8 +8,8 @@ public class TipoR extends mips {
 	private String shiftAmount;
 	private String opcodeExt;
 	
-	public TipoR(String hexa) {
-		super(hexa);
+	public TipoR(String hexa, registradores reg) {
+		super(hexa, reg);
 		atribuir(super.getBin());
 	}
 	
