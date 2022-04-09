@@ -78,7 +78,7 @@ public class teste {
 					ps.println("    },");
 					
 					ps.println("    \"mem\": " + "{},");
-					ps.println("    \"stdout\": " + "{}");
+					ps.println("    \"stdout\": " + m.getStdout());
 					ps.print("  }");
 					
 					if(i+1 < text.size()) {ps.println(",");}

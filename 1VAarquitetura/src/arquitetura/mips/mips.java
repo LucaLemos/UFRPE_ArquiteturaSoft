@@ -6,6 +6,7 @@ public class mips {
 	private String bin;
 	private decodificador deco = new decodificador();
 	private registradores regs = new registradores();
+	private String stdout = "{}";
 
 	/*inicializando mips*/
 	public mips(registradores reg) {
@@ -76,6 +77,11 @@ public class mips {
 		int bdecI = (int) bdec;
 		return bdecI;
 	}
+	/*Binario para decimal positivo*/
+	public long binarioDecimalUnisigned(String bina) {
+		long bdec = Long.parseUnsignedLong(bina, 2);
+		return bdec;
+	}
 	
 	/*Hexa para decimal*/
 	public int hexaDecimal(String hex) {
@@ -116,6 +122,14 @@ public class mips {
 		regs.registrar(posi, intStringHexa(valor));
 	}
 	
+	public void registrarInt(int posi, int valor) {
+		regs.registrar(posi, intHexa(valor));
+	}
+	
+	public String resgatar(int posi) {
+		return regs.resgatar(posi);
+	}
+	
 	
 	public String mostrarReg () {
 		String registros = "";
@@ -151,6 +165,10 @@ public class mips {
 	
 	public decodificador getDeco() {
 		return deco;
+	}
+	
+	public String getStdout() {
+		return stdout;
 	}
 
 	public void setHexa(String hexa) {
