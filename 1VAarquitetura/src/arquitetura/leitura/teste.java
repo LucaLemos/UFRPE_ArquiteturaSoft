@@ -3,7 +3,6 @@ package arquitetura.leitura;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintStream;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,8 +22,6 @@ public class teste {
 				//inicializa a classe mips
 				registradores reg = new registradores();
 				mips m = new mips(reg);
-				
-				//System.out.println(m.(4294967295));
 				
 				//ajusta o nome do arquivo de saida
 				String nome = "output/GrupoC." + file.getName().replace("input", "output");
