@@ -10,8 +10,8 @@ public class TipoR extends mips {
 	private String shiftAmount;
 	private String opcodeExt;
 	
-	public TipoR(String hexa, registradores reg) {
-		super(hexa, reg);
+	public TipoR(String hexa, registradores reg, memoria mem) {
+		super(hexa, reg, mem);
 		atribuir(super.getBin());
 	}
 	
@@ -375,6 +375,8 @@ public class TipoR extends mips {
 	}
 	
 	public String jr() {
+		index = (super.hexaDecimal(super.resgatar(super.binarioDecimal(sourceReg1))));
+		super.registrarLong(32, super.getIndex());
 		pcatt();
 		return "\"jr $" + super.binarioDecimal(sourceReg1) + "\",";
 	}
@@ -387,9 +389,7 @@ public class TipoR extends mips {
 	
 	//atualiza o reg pc
 	public void pcatt() {
-		long valor = super.hexaDecimalUnisined(super.resgatar(32));
-		valor = valor + 4;
-		super.registrarLong(32, valor);
+		index = index + 4;
 	}
 
 	/*funcoes gets*/

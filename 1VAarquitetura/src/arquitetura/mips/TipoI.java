@@ -6,8 +6,8 @@ public class TipoI extends mips {
 	private String destinationReg;
 	private String offset;
 
-	public TipoI(String hexa, registradores reg) {
-		super(hexa, reg);
+	public TipoI(String hexa, registradores reg, memoria mem) {
+		super(hexa, reg, mem);
 		atribuir(super.getBin());
 	}
 	
@@ -68,6 +68,7 @@ public class TipoI extends mips {
 	
 	/*implementacao da formatacao das instrucoes*/
 	public String lui() {
+		pcatt();
 		String luiV = offset + "0000000000000000";
 		super.registrarHexa(super.binarioDecimal(destinationReg), super.binarioHexa(luiV));
 		return "\"lui $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) + "\",";
@@ -160,6 +161,11 @@ public class TipoI extends mips {
 	
 	public String lw() {
 		pcatt();
+		int lwDest = super.binarioDecimal(destinationReg);
+		long lwSource = super.hexaDecimal(super.resgatar(super.binarioDecimal(sourceReg)));
+		long lwOffset = super.binarioDecimal(completar32(offset));
+		
+		super.registrarLong(lwDest, super.getMem().resgatarValor(lwSource + lwOffset));
 	
 		return "\"lw $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
 				"($" + super.binarioDecimal(sourceReg) + ")\",";
@@ -167,6 +173,11 @@ public class TipoI extends mips {
 	
 	public String sw() {
 		pcatt();
+		long lwDest = super.hexaDecimal(super.resgatar(super.binarioDecimal(destinationReg)));
+		long lwSource = super.hexaDecimal(super.resgatar(super.binarioDecimal(sourceReg)));
+		long lwOffset = super.binarioDecimal(completar32(offset));
+		
+		super.getMem().registrar((lwSource + lwOffset), lwDest);
 		
 		return "\"sw $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
 				"($" + super.binarioDecimal(sourceReg) + ")\",";
@@ -177,9 +188,9 @@ public class TipoI extends mips {
 		int bltzOff = super.binarioDecimal(completar32(offset));
 		
 		if (bltz1 < 0) {
-			long valor = super.hexaDecimalUnisined(super.resgatar(32));
-			valor = valor + bltzOff;
+			long valor = super.hexaDecimalUnisined(super.resgatar(32)) + (4*bltzOff);
 			super.registrarLong(32, valor);
+			this.index = (int) (valor + 4);
 		}else {
 			pcatt();
 		}
@@ -193,9 +204,9 @@ public class TipoI extends mips {
 		int beqOff = super.binarioDecimal(completar32(offset));
 		
 		if (beq1 == beq2) {
-			long valor = super.hexaDecimalUnisined(super.resgatar(32));
-			valor = valor + beqOff;
+			long valor = super.hexaDecimalUnisined(super.resgatar(32)) + (4*beqOff);
 			super.registrarLong(32, valor);
+			this.index = (int) (valor + 4);
 		}else {
 			pcatt();
 		}
@@ -210,9 +221,9 @@ public class TipoI extends mips {
 		int bneOff = super.binarioDecimal(completar32(offset));
 		
 		if (bne1 != bne2) {
-			long valor = super.hexaDecimalUnisined(super.resgatar(32));
-			valor = valor + bneOff;
+			long valor = super.hexaDecimalUnisined(super.resgatar(32)) + (4*bneOff);
 			super.registrarLong(32, valor);
+			this.index = (int) (valor + 4);
 		}else {
 			pcatt();
 		}
@@ -233,16 +244,51 @@ public class TipoI extends mips {
 	}
 	
 	public String lb() {
+		pcatt();
+		int lbDest = super.binarioDecimal(destinationReg);
+		long lbSource = super.hexaDecimal(super.resgatar(super.binarioDecimal(sourceReg)));
+		long lbOffset = super.binarioDecimal(completar32(offset));
+		
+		long valor = super.getMem().resgatarValor(lbSource + 4*(lbOffset));
+		String valorHex = super.longHexa(valor);
+		String valorBin = Long.toBinaryString(Long.parseLong(super.retiraPrefixo(valorHex), 16));
+		
+		while(valorBin.length() < 32) {
+			valorBin = valorBin.charAt(0) + valorBin;
+		}
+		
+		super.registrarHexa(lbDest, super.binarioHexa(valorBin));
+		
 		return "\"lb $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
 				"($" + super.binarioDecimal(sourceReg) + ")\",";
 	}
 	
 	public String lbu() {
+		pcatt();
+		int lbuDest = super.binarioDecimal(destinationReg);
+		long lbuSource = super.hexaDecimal(super.resgatar(super.binarioDecimal(sourceReg)));
+		long lbuOffset = super.binarioDecimal(completar32(offset));
+		
+		long valor = super.getMem().resgatarValor(lbuSource + (4*lbuOffset));
+		String valorHex = super.longHexa(valor);
+		
+		super.registrarHexa(lbuDest, valorHex);
+		
+		
 		return "\"lbu $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
 				"($" + super.binarioDecimal(sourceReg) + ")\",";
 	}
 	
 	public String sb() {
+		pcatt();
+		long sbDest = super.hexaDecimal(super.resgatar(super.binarioDecimal(destinationReg)));
+		long sbSource = super.hexaDecimal(super.resgatar(super.binarioDecimal(sourceReg)));
+		long sbOffset = super.binarioDecimal(completar32(offset));
+		
+		long valor = super.getMem().resgatarValor(sbSource + (4*sbOffset));
+		
+		super.getMem().registrar(valor, sbDest);
+		
 		return "\"sb $" + super.binarioDecimal(destinationReg) + ", " + super.binarioDecimal(completar32(offset)) +
 				"($" + super.binarioDecimal(sourceReg) + ")\",";
 	}
@@ -250,9 +296,7 @@ public class TipoI extends mips {
 	
 	//atualiza o reg pc
 	public void pcatt() {
-		long valor = super.hexaDecimalUnisined(super.resgatar(32));
-		valor = valor + 4;
-		super.registrarLong(32, valor);
+		index = index + 4;
 	}
 	
 	

@@ -4,8 +4,8 @@ public class TipoJ extends mips {
 	private String opcode;
 	private String jumpTarget;
 	
-	public TipoJ(String hexa, registradores reg) {
-		super(hexa, reg);
+	public TipoJ(String hexa, registradores reg, memoria mem) {
+		super(hexa, reg, mem);
 		atribuir(super.getBin());
 	}
 	
@@ -30,12 +30,24 @@ public class TipoJ extends mips {
 
 	/*implementacao da formatacao das instrucoes*/
 	public String j() {
-			return "\"j " + super.binarioDecimal(jumpTarget) + "\","; 
+		index = 4*super.binarioDecimal(jumpTarget);
+		super.registrarLong(32, super.getIndex());
+		pcatt();
+		return "\"j " + super.binarioDecimal(jumpTarget) + "\","; 
 	}
 
 	public String jal() {
-			return "\"jal " + super.binarioDecimal(jumpTarget) + "\","; 
+		super.registrarInt(31, super.getIndex());
+		index = 4*super.binarioDecimal(jumpTarget);
+		super.registrarLong(32, super.getIndex());
+		pcatt();
+		return "\"jal " + super.binarioDecimal(jumpTarget) + "\","; 
 	}
+	
+	//atualiza o reg pc
+		public void pcatt() {
+			index = index + 4;
+		}
 		
 	/*get*/	
 	public String getOpcode() {

@@ -8,16 +8,25 @@ public class mips {
 	private String bin;
 	private decodificador deco = new decodificador();
 	private registradores regs = new registradores();
+	private memoria mem = new memoria();
 	private String stdout = "{}";
+	private int pcBase = hexaDecimal(regs.resgatar(32));
+	protected int index = hexaDecimal(regs.resgatar(32));
 
 	/*inicializando mips*/
-	public mips(registradores reg) {
-		regs = reg;
+	public mips(registradores reg, memoria mem) {
+		this.regs = reg;
+		this.mem = mem;
+		this.pcBase = hexaDecimal(regs.resgatar(32));
+		this.index = hexaDecimal(regs.resgatar(32));
 	}
-	public mips(String Hexa, registradores reg) {
+	public mips(String Hexa, registradores reg, memoria mem) {
 		hexa = Hexa;
 		bin = TransformahexaBinario();
-		regs = reg;
+		this.regs = reg;
+		this.mem = mem;
+		this.pcBase = hexaDecimal(regs.resgatar(32));
+		this.index = hexaDecimal(regs.resgatar(32));
 	}
 	
 	/*verifica tamanho de hexa*/
@@ -160,19 +169,22 @@ public class mips {
 		String intrucao;
 		switch (qualTipo()) {
 		case "R": 
-			TipoR instR = new TipoR(hexa, regs);
+			TipoR instR = new TipoR(hexa, regs, mem);
 			intrucao = instR.intrucao();
 			stdout = instR.getStdout();
+			index = instR.getIndex();
 			break;
 		case "I": 
-			TipoI instI = new TipoI(hexa, regs);
+			TipoI instI = new TipoI(hexa, regs, mem);
 			intrucao = instI.intrucao();
 			stdout = instI.getStdout();
+			index = instI.getIndex();
 			break;
 		case "J": 
-			TipoJ instJ = new TipoJ(hexa, regs);
+			TipoJ instJ = new TipoJ(hexa, regs, mem);
 			intrucao = instJ.intrucao();
 			stdout = instJ.getStdout();
+			index = instJ.getIndex();
 			break;
 		default:
 			intrucao = "\"NULL\",";
@@ -206,7 +218,7 @@ public class mips {
 	public String mostrarReg () {
 		String registros = "";
 		for(int i = 0; i < regs.getRegs().length; i++){	
-			if (regs.getRegs()[i] != "0x00000000") {
+			if (!regs.getRegs()[i].equals("0x00000000")) {
 				if (i == 32) {
 					registros= registros + "        \"$pc\": " + hexaDecimal(regs.getRegs()[i]);
 				}
@@ -225,6 +237,15 @@ public class mips {
 		}
 		return registros;
 	}
+	
+	public String mostrarMem() {
+		return this.mem.mostrar();
+	}
+	
+	public void atualizaIndex() {
+		this.index = hexaDecimal(regs.resgatar(32));
+		this.pcBase = hexaDecimal(regs.resgatar(32));
+	}
     
 	/*get e set*/
 	public String getHexa() {
@@ -239,8 +260,25 @@ public class mips {
 		return deco;
 	}
 	
+	public memoria getMem() {
+		return mem;
+	}
+	
 	public String getStdout() {
 		return stdout;
+	}
+	
+	public int getPcBase() {
+		return pcBase;
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+	
+	public int getIndexNum() {
+		int num = (index - pcBase)/4;
+		return num;
 	}
 
 	public void setHexa(String hexa) {
