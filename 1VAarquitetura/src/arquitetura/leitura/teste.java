@@ -98,7 +98,7 @@ public class teste {
 				mem.mostrar();
 				
 				//executa para cada instrucao do array
-				while (index < text.size() && lim < 100) {
+				while (index < text.size() && lim < 1000) {
 					//carrega a insformacao hexadecimal na classe mips
 					m.setHexa(text.get(index).toString());
 					
